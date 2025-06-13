@@ -264,7 +264,19 @@ def search_candidates():
             
             if not should_fetch_online:
                 print(f"DEBUG: - 用户 {user_summary['login']} 是完美的熟人，从缓存读取。")
-                final_processed_candidates.append({**cached_data, "source": "database_cache"})
+                
+                ### ===============================================================================
+                ### ===                           【关键修复】                                    ===
+                ### === 以下代码块是唯一被修改的地方。它将数据库返回的缓存数据进行“标准化”，   ===
+                ### === 确保返回给前端的字段名 (key) 永远和实时抓取的数据一致。               ===
+                ### ===============================================================================
+                normalized_cache = {
+                    **cached_data,
+                    "githubAvatar": cached_data.get("github_avatar_url"), # <-- 关键修复：添加前端期望的字段
+                    "githubUrl": cached_data.get("github_url"),         # <-- 顺便也统一一下 GitHub 主页地址的字段
+                    "source": "database_cache"
+                }
+                final_processed_candidates.append(normalized_cache)
                 continue
 
             # 在线抓取或更新
