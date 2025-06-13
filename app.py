@@ -33,7 +33,7 @@ if not GITHUB_TOKEN or not DATABASE_URL:
 app = Flask(__name__)
 # [修复] 明确配置 CORS，以允许来自 Next.js 前端 (http://localhost:3000) 的请求
 # 这解决了浏览器中的跨域资源共享 (CORS) 策略问题
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "https://aihunter.cloud"}})
 
 
 # --- 数据库和密码函数 (您的原始代码，保持不变) ---
